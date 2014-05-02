@@ -1,0 +1,93 @@
+<?php
+/**
+ * @file
+ * Sets up a custom filter that enables Block Shortcodes.
+ */
+
+/**
+ * Implements hook_filter_info().
+ */
+function node_shortcode_filter_info() {
+
+  $filters['node_shortcode'] = array(
+    'title' => t('Node Shortcodes'),
+    'description' => t('Sets up a custom filter that enables Node Shortcodes.'),
+    'prepare callback' => 'node_shortcode_filter_node_embed_prepare',
+    'process callback' => 'node_shortcode_filter_node_shortcode_process',
+    'tips callback'  => 'node_shortcode_filter_node_shortcode_tips',
+    'cache' => FALSE,
+  );
+
+  return $filters;
+
+}
+
+/**
+ * Prepare callback for callback_filter_prepare.
+ */
+function node_shortcode_filter_node_shortcode_prepare($text, $filter, $format, $langcode, $cache, $cache_id) {
+
+  return $text;
+
+}
+
+/**
+ * Process callback for callback_filter_process.
+ */
+function node_shortcode_filter_node_shortcode_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+
+  // Grab the relevant data from shortcode and convert it to block embed.
+  return preg_replace_callback('/\[node nid=\"(.*)\" view-mode=\"(.*)\"\]/', '_node_shortcode_style_make_replacements', $text);
+
+}
+
+/**
+ * Tips callback for callback_filter_tips.
+ */
+function node_shortcode_filter_node_shortcode_tips($filter, $format, $long) {
+
+  return t('[node nid="123" view-mode="teaser"] - embed a node with given 
+            identification (nid and optionally view mode). See node\'s edit page for a specific examples.
+            This will only work for users with access to nodes.'
+          );
+
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function node_shortcode_form_alter(&$form, &$form_state, $form_id) {
+
+  if(isset($form['#node_edit_form'])) {
+  	  $nid = $form['nid']['#value'];	
+	  $form['settings']['node_shortcode_example'] = array(
+	    '#type' => 'textfield',
+	    '#title' => 'Shortcode:',
+	    '#default_value' => '[node nid="' . $nid . '"]',
+	    '#description' => t('Copy the text above and paste anywhere that allows the Node Shortcode filter. You can optionally add a view mode attribute.'),
+	    '#attributes' => array('readonly' => 'readonly'),
+	
+	  );
+	    
+  }
+ 
+}
+
+/**
+ * Provides the replacement HTML to be rendered in place of the short code.
+ */
+function _node_shortcode_style_make_replacements($matches) {
+
+  $nid = $matches[1];
+  $view_mode = $matches[2];
+
+  $node = node_load($nid);
+  $node = node_view($node, $view_mode);
+  
+  $html = '<div class="shortcode-node">';
+  $html .= render($node);
+  $html .= '</div>';
+
+  return $html;
+
+}

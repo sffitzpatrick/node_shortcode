@@ -1,0 +1,4 @@
+name = Node Shortcodes
+description = Sets up a custom filter that enables node shortcodes.
+core = 7.x
+dependencies[] = node
