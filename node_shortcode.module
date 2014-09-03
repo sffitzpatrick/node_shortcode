@@ -37,7 +37,7 @@ function node_shortcode_filter_node_shortcode_prepare($text, $filter, $format, $
 function node_shortcode_filter_node_shortcode_process($text, $filter, $format, $langcode, $cache, $cache_id) {
 
   // Grab the relevant data from shortcode and convert it to block embed.
-  return preg_replace_callback('/\[node nid=\"(.*)\" view-mode=\"(.*)\"\]/', '_node_shortcode_style_make_replacements', $text);
+  return preg_replace_callback('/\[node nid=\"(.*)\" view-mode=\"(.*)\" class=\"(.*)\"\]/', '_node_shortcode_style_make_replacements', $text);
 
 }
 
@@ -46,7 +46,7 @@ function node_shortcode_filter_node_shortcode_process($text, $filter, $format, $
  */
 function node_shortcode_filter_node_shortcode_tips($filter, $format, $long) {
 
-  return t('[node nid="123" view-mode="teaser"] - embed a node with given 
+  return t('[node nid="123" view-mode="teaser" class="grid-2-1 first"] - embed a node with given 
             identification (nid and optionally view mode). See node\'s edit page for a specific examples.
             This will only work for users with access to nodes.'
           );
@@ -80,11 +80,12 @@ function _node_shortcode_style_make_replacements($matches) {
 
   $nid = $matches[1];
   $view_mode = $matches[2];
+  $class = $matches[3];
 
   $node = node_load($nid);
   $node = node_view($node, $view_mode);
   
-  $html = '<div class="shortcode-node">';
+  $html = '<div class="shortcode-node ' . $class . '">';
   $html .= render($node);
   $html .= '</div>';
 
