@@ -37,7 +37,7 @@ function node_shortcode_filter_node_shortcode_prepare($text, $filter, $format, $
 function node_shortcode_filter_node_shortcode_process($text, $filter, $format, $langcode, $cache, $cache_id) {
 
   // Grab the relevant data from shortcode and convert it to block embed.
-  return preg_replace_callback('/\[node nid=\"(.*)\" view-mode=\"(.*)\" class=\"(.*)\"\]/', '_node_shortcode_style_make_replacements', $text);
+  return preg_replace_callback('/\[node nid=\"(.*)\" view-mode=\"(.*)\"\]/', '_node_shortcode_style_make_replacements', $text);
 
 }
 
