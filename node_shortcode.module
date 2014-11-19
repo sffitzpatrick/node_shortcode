@@ -46,7 +46,7 @@ function node_shortcode_filter_node_shortcode_process($text, $filter, $format, $
  */
 function node_shortcode_filter_node_shortcode_tips($filter, $format, $long) {
 
-  return t('[node nid="123" view-mode="teaser" class="grid-2-1 first"] - embed a node with given 
+  return t('[node nid="123" view-mode="teaser"] - embed a node with given 
             identification (nid and optionally view mode). See node\'s edit page for a specific examples.
             This will only work for users with access to nodes.'
           );
@@ -63,7 +63,7 @@ function node_shortcode_form_alter(&$form, &$form_state, $form_id) {
 	  $form['settings']['node_shortcode_example'] = array(
 	    '#type' => 'textfield',
 	    '#title' => 'Shortcode:',
-	    '#default_value' => '[node nid="' . $nid . '" view_mode="teaser" class=""]',
+	    '#default_value' => '[node nid="' . $nid . '" view-mode="teaser"]',
 	    '#description' => t('Copy the text above and paste anywhere that allows the Node Shortcode filter. You can edit the view_mode and class attributes'),
 	    '#attributes' => array('readonly' => 'readonly'),
 	
