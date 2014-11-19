@@ -63,8 +63,8 @@ function node_shortcode_form_alter(&$form, &$form_state, $form_id) {
 	  $form['settings']['node_shortcode_example'] = array(
 	    '#type' => 'textfield',
 	    '#title' => 'Shortcode:',
-	    '#default_value' => '[node nid="' . $nid . '"]',
-	    '#description' => t('Copy the text above and paste anywhere that allows the Node Shortcode filter. You can optionally add a view mode attribute.'),
+	    '#default_value' => '[node nid="' . $nid . '" view_mode="teaser" class=""]',
+	    '#description' => t('Copy the text above and paste anywhere that allows the Node Shortcode filter. You can edit the view_mode and class attributes'),
 	    '#attributes' => array('readonly' => 'readonly'),
 	
 	  );
